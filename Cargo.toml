@@ -1,0 +1,12 @@
+[package]
+name = "pac-macros"
+version = "0.1.0"
+authors = ["Andrey Zgarbul <zgarbul.andrey@gmail.com>"]
+license = "MIT OR Apache-2.0"
+description = "Adds `#[derive(Deref)]` and `#[derive(DerefMut)]` for wrapper structs"
+readme = "README.md"
+keywords = ["derive", "deref"]
+repository = "https://github.com/burrbull/pac-macros"
+
+[lib]
+proc-macro = true
