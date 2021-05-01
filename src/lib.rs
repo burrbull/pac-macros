@@ -7,16 +7,19 @@ fn simple_derive(
     f: impl FnOnce(Ident, TokenStream) -> TokenStream,
 ) -> TokenStream {
     let mut tt = input.into_iter();
-    match (tt.next(), tt.next(), tt.next(), tt.next()) {
+    loop {
+        match tt.next() {
+            Some(TokenTree::Ident(pb)) if pb.to_string() == "pub" => break,
+            None => panic!("pub not found"),
+            _ => {}
+        }
+    }
+    match (tt.next(), tt.next(), tt.next()) {
         (
-            Some(TokenTree::Ident(pb)),
             Some(TokenTree::Ident(strct)),
             Some(TokenTree::Ident(name)),
             Some(TokenTree::Group(group)),
-        ) if pb.to_string() == "pub"
-            && strct.to_string() == "struct"
-            && group.delimiter() == Delimiter::Parenthesis =>
-        {
+        ) if strct.to_string() == "struct" && group.delimiter() == Delimiter::Parenthesis => {
             f(name, group.stream())
         }
         _ => panic!("Can't parse structure"),
